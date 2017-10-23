@@ -25,16 +25,7 @@ def whatwillyoudo(wave, castleHealth, men, arrowDamage, catapultDamage):
         if decisionInput == "1":
             menkilled = random.randint(0, wave * 2)
             men = men - menkilled
-            arrowdamagedone = 13 
-            131
-            131
-            1311
-            1311
-            
-            
-            
-            
-            '* men * wave
+            arrowdamagedone = 1 * men * wave
             castleHealth = castleHealth - arrowdamagedone
             print("The castle now has " + str(castleHealth) + " health.")
             print("You have lost " + str(menkilled) + " men from return fire. You now have " + str(men) + ".")
