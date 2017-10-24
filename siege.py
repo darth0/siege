@@ -1,4 +1,3 @@
-
 import math
 import random
 
@@ -9,7 +8,7 @@ castleHealth = 100 * wave
 men = wave * 10 + 10
 arrowDamage = men * 1
 menDamage = men * 2
-catapultDamage = 50 * wave
+catapultDamage = 40 * wave
 count = 0
 
 def whatwillyoudo(wave, castleHealth, men, arrowDamage, catapultDamage):
@@ -23,32 +22,41 @@ def whatwillyoudo(wave, castleHealth, men, arrowDamage, catapultDamage):
         decisionInput = input("Type 1 to shoot arrows, Type 2 to send a certain amount of men to make a rush towards the castle, and Type 3 to fire the catapult")
 
         if decisionInput == "1":
-            menkilled = random.randint(0, wave * 2)
+            menkilled = random.randint(0, wave * 2
+            )
             men = men - menkilled
-            arrowdamagedone = 1 * men * wave
+            arrowdamagedone = 1 * wave + .5 * men
+            
             castleHealth = castleHealth - arrowdamagedone
-            print("The castle now has " + str(castleHealth) + " health.")
-            print("You have lost " + str(menkilled) + " men from return fire. You now have " + str(men) + ".")
+            if castleHealth > 0 and men > 0:
+              print("The castle now has " + str(castleHealth) + " health.")
+              print("You have lost " + str(menkilled) + " men from return fire. You now have " + str(men) + ".")
 
         if decisionInput == "2":
             rushinput = int(input("How many men would you like to make a rush at the castle?"))
             if int(rushinput) > men:
                 print('Please enter a valid input. You have ' + str(men) + ' men left.')
             if int(rushinput) <= men:
-                menkilled = random.randint(0, int(rushinput))
+                if rushinput > .75 * men:
+                  menkilled = random.randint(int(.2 * men), rushinput)
+                elif rushinput <= .5 * men: 
+                  menkilled = random.randint(0,(.75 * rushinput))
+                elif rushinput < .25 * men:
+                  menkilled = random.randint(0,(.5 * rushinput))
                 men = men - menkilled
                 mendamagedone = rushinput * 3
                 castleHealth = castleHealth - mendamagedone
-                print("The castle now has " + str(castleHealth) + " health.")
-                print("You have lost " + str(menkilled) + " men from rushing. You now have " + str(men) + "."
+                if castleHealth > 0 and men > 0:
+                  print("The castle now has " + str(castleHealth) + " health.")
+                  print("You have lost " + str(menkilled) + " men from rushing. You now have " + str(men) + "."
                 )
-        
+  
         if decisionInput == "3":
             count = count + 1
-            if count >= 2:
-                print("You have already used the catapult once!")
+            if count >= 4:
+                print("You have already used the catapult twice!")
                 
-            elif count == 1: 
+            elif count <= 3: 
               catapultChance = random.randint(0 , 2)
               menkilled = random.randint(0, wave * 3)
               men = men - menkilled
@@ -58,17 +66,17 @@ def whatwillyoudo(wave, castleHealth, men, arrowDamage, catapultDamage):
               else:
                   castleHealth = castleHealth - catapultDamage
                   count = count + 1
-                  print("The catapult struck! The castle now has " + str(castleHealth) + " health")
-                  print("You have lost " + str(menkilled) + " men from return fire. You now have " + str(men) + ".")
+                  if castleHealth > 0 and men > 0:
+                    print("The catapult struck! The castle now has " + str(castleHealth) + " health")
+                    print("You have lost " + str(menkilled) + " men from return fire. You now have " + str(men) + ".")
     
     if castleHealth <= 0:
-        print("Castle " + str(wave) + " sieged!")
+        print("CASTLE " + str(wave) + " SIEGED!")
         print("Starting next wave. . .")
         startGame(wave + 1, castleHealth, men, arrowDamage, catapultDamage) #problem with next wave
     
-    if men <= 0:
+    if men < 0:
         print("All of your men died! GAME OVER!")
-        exit
 
 
 def startGame(wave, castleHealth, men, arrowDamage, catapultDamage):
@@ -82,7 +90,7 @@ def startGame(wave, castleHealth, men, arrowDamage, catapultDamage):
 
 
 
-userInput = input('Welcome to S.I.E.G.E alpha v1.5. Press 1 to continue')
+userInput = input('Welcome to S.I.E.G.E alpha v1.6. Press 1 to continue')
 if userInput == "1":
     name = input("What shall your leader's name be?")
 
@@ -108,5 +116,4 @@ if userInput == "1":
 
 else:
     print("Invalid Input. Try Again.")
-
 
